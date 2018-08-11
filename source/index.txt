@@ -1,20 +1,169 @@
-.. solidity-chinese documentation master file, created by
-   sphinx-quickstart on Wed Aug  8 02:43:48 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Solidity
+========
 
-Welcome to solidity-chinese's documentation!
-============================================
+.. image:: logo.svg
+    :width: 120px
+    :alt: Solidity logo
+    :align: center
+
+Solidity是一种用于实现智能合约的面向合约的高级语言。
+它受到C++，Python和JavaScript的影响，旨在针对以太坊虚拟机（EVM）。
+
+Solidity是静态类型的，支持继承，库和复杂的用户定义类型以及其他功能。
+
+正如您将看到的，它让创建投票，众筹，盲拍，多签名钱包等更多的合同成为了可能。
+
+.. note::
+    目前尝试Solidity的最佳方法是使用
+    `Remix <https://remix.ethereum.org/>`_
+    （加载可能需要一段时间，请耐心等待）。 Remix是一个基于IDE的Web浏览器，
+    允许您编写Solidity智能合约，然后部署并运行智能合约。
+
+.. warning::
+    由于软件是由人类编写的，因此它可能存在错误。因此，还应根据软件开发中
+    众所周知的最佳实践创建智能合约。这包括代码审查，测试，审核和正确性证明。
+    另请注意，用户有时对代码比对作者更有信心。最后，区块链有各自需要注意的事项，
+    所以请查看以下部分 :ref:`security_considerations` 。
+
+翻译
+----
+
+社区志愿者将该文档翻译成多种语言，但英文版本作为参考。
+
+* `简体中文 <http://solidity-cn.readthedocs.io>`_ （正在进行中）
+* `西班牙语 <https://solidity-es.readthedocs.io>`_
+* `俄语 <https://github.com/ethereum/wiki/wiki/%5BRussian%5D-%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0% B4％D1％81％D1％82％D0％B2％D0％BE-％D0％BF％D0％BE-Solidity>`_ （相当过时）
+* `韩语 <http://solidity-kr.readthedocs.io>`_ （正在进行中）
+
+有用的链接
+----------
+
+* `以太坊官网 <https://ethereum.org>`_
+
+* `变更日志 <https://github.com/ethereum/solidity/blob/develop/Changelog.md>`_
+
+* `Story Backlog <https://www.pivotaltracker.com/n/projects/1189488>`_
+
+* `Solidity源代码 <https://github.com/ethereum/solidity/>`_
+
+* `以太坊 Stackexchange <https://ethereum.stackexchange.com/>`_
+
+* `Gitter聊天室 <https://gitter.im/ethereum/solidity/>`_
+
+可用的 Solidity 集成
+--------------------
+
+* `Remix <https://remix.ethereum.org/>`_
+    基于浏览器的IDE，集成了编译器和Solidity运行时环境，没有服务器端组件。
+
+* `IntelliJ IDEA 插件 <https://plugins.jetbrains.com/plugin/9475-intellij-solidity>`_
+    IntelliJ IDEA（以及所有其他JetBrains IDE）的Solidity插件
+
+* `Visual Studio 扩展 <https://visualstudiogallery.msdn.microsoft.com/96221853-33c4-4531-bdd5-d2ea5acc4799/>`_
+    Microsoft Visual Studio的Solidity插件，包含Solidity编译器。
+
+* `SublimeText包 - Solidity语言语法 <https://packagecontrol.io/packages/Ethereum/>`_
+    SublimeText编辑器的Solidity语法高亮显示。
+
+* `Etheratom <https://github.com/0mkara/etheratom>`_
+    Atom编辑器的插件，具有语法突出显示，编译和运行时环境（兼容后端节点和虚拟机）。
+
+* `Atom Solidity Linter <https://atom.io/packages/linter-solidity>`_
+    Atom编辑器的插件，提供Solidity linting。
+
+* `Atom Solium Linter <https://atom.io/packages/linter-solium>`_
+    使用Solium作为基础的Atom可配置Solidty linter。
+
+* `Solium <https://github.com/duaraghav8/Solium/>`_
+    用于识别和修复Solidity中的样式和安全问题的Linter。
+
+* `Solhint <https://github.com/protofire/solhint>`_
+    Solidity linter，为智能合约验证提供安全性，样式指南和最佳实践规则。
+
+不再维护:
+
+* `Mix IDE <https://github.com/ethereum/mix/>`_
+    基于Qt的IDE，用于设计，调试和测试可靠性智能合约。
+
+* `Ethereum Studio <https://live.ether.camp/>`_
+    专门的Web IDE，还提供对完整以太坊环境的shell访问。
+
+Solidity 工具
+-------------
+
+* `Dapp <https://dapp.readthedocs.io>`_
+    Solidity的构建工具，包管理器和部署助手。
+
+* `Solidity REPL <https://github.com/raineorshine/solidity-repl>`_
+    使用命令行Solidity控制台立即尝试Solidity。
+
+* `solgraph <https://github.com/raineorshine/solgraph>`_
+    可视化Solidity控制流程并突出显示潜在的安全漏洞。
+
+* `Doxity <https://github.com/DigixGlobal/doxity>`_
+    Solidity文档生成器。
+
+* `evmdis <https://github.com/Arachnid/evmdis>`_
+    EVM反汇编程序对字节码执行静态分析，以提供比原始EVM操作更高级别的抽象。
+
+* `ABI to solidity interface converter <https://gist.github.com/chriseth/8f533d133fa0c15b0d6eaf3ec502c82b>`_
+    用于从智能合约的ABI生成合约接口的脚本。
+
+* `Securify <https://securify.ch/>`_
+    用于智能合约的全自动在线静态分析器，提供基于漏洞模式的安全报告。
+
+* `Sūrya <https://github.com/ConsenSys/surya/>`_
+    用于智能合约系统的实用工具，提供大量视觉输出和有关合同结构的信息。还支持查询函数调用图。
+
+* `EVM Lab <https://github.com/ethereum/evmlab/>`_
+    丰富的工具包与EVM交互。包括VM，Etherchain API和带有燃气成本显示的跟踪查看器。
+
+.. 注意：：
+   变量名称，注释和源代码格式等信息在编译过程中丢失，无法完全恢复原始源代码。 可能无法反编译智能合约以查看原始源代码，或者最终结果有用。
+
+第三方Solidity解析器和语法
+--------------------------
+
+* `solidity-parser <https://github.com/ConsenSys/solidity-parser>`_
+    JavaScript的Solidity解析器
+
+* `Solidity Grammar for ANTLR 4 <https://github.com/federicobond/solidity-antlr4>`_
+    ANTLR 4解析器生成器的Solidity语法
+            
+语言文档
+--------
+
+在接下来的几页中，我们将首先看到一个用Solidity编写的 :ref:`简单智能合约 <simple-smart-contract>` ，
+然后是 :ref:`区块链<blockchain-basics>` 基础和 :ref:`以太坊虚拟机 <the-ethereum-virtual-machine>` 。
+
+下一节将通过给出有用的 :ref:`合约示例 <voting>` ，解释几个Solidity的 *特征* 
+记住你总是可以 `在你的浏览器中 <https://remix.ethereum.org>`_ 尝试合约！
+
+最新最广的部分将深度涵盖Solidity的方方面面。
+
+如果您仍有疑问，可以尝试搜索或在 `Ethereum Stackexchange <https://ethereum.stackexchange.com/>`_ 网站上咨询，
+或来我们的 `gitter 频道 <https://gitter.im/ethereum/solidity/>`_ 。
+我们随时欢迎提高Solidity或本文档的想法！
+
+内容
+====
+
+:ref:`关键字索引 <genindex>`， :ref:`搜索页 <search>`
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   introduction-to-smart-contracts.rst
+   installing-solidity.rst
+   solidity-by-example.rst
+   solidity-in-depth.rst
+   security-considerations.rst
+   using-the-compiler.rst
+   metadata.rst
+   abi-spec.rst
+   yul.rst
+   style-guide.rst
+   common-patterns.rst
+   bugs.rst
+   contributing.rst
+   frequently-asked-questions.rst
