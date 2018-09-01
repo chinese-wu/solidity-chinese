@@ -1,0 +1,317 @@
+.. index:: ! installing
+
+.. _installing-solidity:
+
+####################
+安装 Solidity 编译器
+####################
+
+版本
+==========
+
+Solidity版本遵循 `语义化版本 <https://semver.org>`_ （规范），除了发行版本外， **日常开发构建** 的版本也可用。
+夜间构建（nightly development）不能保证正常工作，尽管做出了最大努力，但它们可能包含没文档化的和/或零碎的改变。
+我们建议使用最新发行版本。 下面的软件包安装程序将使用最新发行版本。
+
+Remix
+=====
+
+* 我们建议Remix用于智能合约来快速入门Solidity。 *
+
+`在线访问Remix <https://remix.ethereum.org/>`_ ，你不需要安装任何东西。
+如果要在不连接Internet的情况下使用它，请访问 https://github.com/ethereum/browser-solidity/tree/gh-pages 
+并按照该页面上的说明下载.ZIP文件。
+
+此页面上的其他选项详细说明了在计算机上安装基于命令行的Solidity编译软件。
+如果你正在处理一个大型合同或需要更多编译选项，请选择命令行编译器。
+
+.. _solcjs:
+
+npm / Node.js
+=============
+
+使用 `npm` 以方便和便携的方式安装 `solcjs` -- 一个Solidity编译器。
+`solcjs` 程序的功能少于本页后面的所有可选特性。
+我们的 :ref:`commandline-compiler` 文档假设你使用的是功能齐全的编译器`solc`。
+因此，如果你从 `npm` 安装 `solcjs` ，那么你还是停止阅读此处的文档，
+然后继续看 `solc-js <https://github.com/ethereum/solc-js>`_ 。
+
+注意：solc-js项目是使用Emscripten从C++ `solc` 派生来的。 `solc-js` 可以直接在JavaScript项目中使用（例如Remix）。
+有关说明，请参阅solc-js存储库。
+
+.. code:: bash
+
+    npm install -g solc
+
+.. note::
+    命令行名为`solcjs`。
+
+    `solcjs` 的命令行选项与 `solc` 和一些工具（如`geth`）不兼容，不要期待 `solc` 的行为适用于 `solcjs` 。
+
+Docker
+======
+
+我们为编译器提供最新的docker构建。 ``stable`` 存储库包含发行版本，而 ``nightly`` 版本存储库包含开发分支中可能不稳定的更改。
+
+.. code:: bash
+
+    docker run ethereum/solc:stable solc --version
+
+目前，docker镜像只包含编译器可执行文件，所以你必须做一些额外的工作来链接源和输出目录。
+
+二进制安装包
+============
+
+可以在 `solidity/releases <https://github.com/ethereum/solidity/releases>`_ 获得Solidity的二进制安装包。
+
+我们还为Ubuntu提供了PPA。它是最新的稳定版本。
+
+.. code:: bash
+
+    sudo add-apt-repository ppa:ethereum/ethereum
+    sudo apt-get update
+    sudo apt-get install solc
+
+如果你想使用最前沿的开发者版本：
+
+.. code:: bash
+
+    sudo add-apt-repository ppa:ethereum/ethereum
+    sudo add-apt-repository ppa:ethereum/ethereum-dev
+    sudo apt-get update
+    sudo apt-get install solc
+ 
+我们还发布了一个 `snap 安装包 <https://snapcraft.io/>`_ ，它可以安装在所有 `支持的Linux发行版 <https://snapcraft.io/docs/core/install>`_ 中。
+安装solc最新的稳定版：
+
+.. code:: bash
+
+    sudo snap install solc
+
+或者，如果你希望使用开发分支的最新更改来帮助测试不稳定的solc：
+
+.. code:: bash
+
+    sudo snap install solc --edge
+
+Arch Linux也有软件包，尽管仅限于最新的开发版本：
+
+.. code:: bash
+
+    pacman -S solidity
+
+在编写本文时，Homebrew缺少pre-built bottles，在Jenkins转向TravisCI之后，但Homebrew从源码构建的手段仍然可以正常工作。
+我们很快就会重新添加 pre-built bottles。
+
+.. code:: bash
+
+    brew update
+    brew upgrade
+    brew tap ethereum/ethereum
+    brew install solidity
+
+如果你需要特定版本的Solidity，你可以直接从Github安装Homebrew方案。
+
+查看 `solidity.rb在Github上的提交 <https://github.com/ethereum/homebrew-ethereum/commits/master/solidity.rb>`_ 。
+
+按照历史记录链接，直到你有一个特定提交``solidity.rb``的原始文件链接。
+
+使用``brew``安装它：
+
+.. code:: bash
+
+    brew unlink solidity
+    # Install 0.4.8
+    brew install https://raw.githubusercontent.com/ethereum/homebrew-ethereum/77cce03da9f289e5a3ffe579840d3c5dc0a62717/solidity.rb
+
+Gentoo Linux还提供了一个可以使用``emerge``安装的可靠性包：
+
+.. code:: bash
+
+    emerge dev-lang/solidity
+
+.. _building-from-source:
+
+从源码构建
+==========
+
+克隆存储库
+----------
+
+要克隆源代码，请执行以下命令：
+
+.. code:: bash
+
+    git clone --recursive https://github.com/ethereum/solidity.git
+    cd solidity
+
+如果你想帮助开发Solidity，
+你应该分叉Solidity并将你的个人分叉添加为第二个远程：
+
+.. code:: bash
+
+    cd solidity
+    git remote add personal git@github.com:[username]/solidity.git
+
+Solidity有git子模块。 确保它们正确加载：
+
+.. code:: bash
+
+   git submodule update --init --recursive
+
+前置条件 - macOS
+---------------------
+
+对于macOS，请确保安装了最新版本的 `Xcode <https://developer.apple.com/xcode/download/>`_ 。
+这包含 `Clang C ++编译器 <https://en.wikipedia.org/wiki/Clang>`_ ，
+`Xcode IDE <https://en.wikipedia.org/wiki/Xcode>`_ 
+和其他Apple开发在OS X上构建C ++应用程序所需的工具。
+如果您是第一次安装Xcode，或者刚刚安装了新版本，那么在进行命令行构建之前，您需要同意许可证：
+
+.. code:: bash
+
+    sudo xcodebuild -license accept
+
+我们的OS X构建要求您 `安装Homebrew <http://brew.sh>`_ 包管理器，用于安装外部依赖项。
+以下是如何 `卸载Homebrew <https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/FAQ.md#how-do-i-uninstall-homebrew>`_ ，
+如果你想要从头再来一次的话。
+
+
+前置条件 - Windows
+-----------------------
+
+您需要为Windows版本的Solidity安装以下依赖项：
+
++-----------------------------------+-------------------------------------------------------+
+| Software                          | Notes                                                 |
++===================================+=======================================================+
+| `Git for Windows`_                | 用于从Github检索源的命令行工具。                      |
++-----------------------------------+-------------------------------------------------------+
+| `CMake`_                          | 跨平台构建文件生成器。                                |
++-----------------------------------+-------------------------------------------------------+
+| `Visual Studio 2017 Build Tools`_ | C++ 编译器                                            |
++-----------------------------------+-------------------------------------------------------+
+| `Visual Studio 2017`_  (可选的)   | C++ 编译器和开发环境                                  |
++-----------------------------------+-------------------------------------------------------+
+
+如果您已经有一个IDE并且只需要编译器和库，
+您可以安装Visual Studio 2017构建工具。
+
+Visual Studio 2017提供IDE和必要的编译器和库。
+因此，如果您还没有IDE并且喜欢开发solidity，Visual Studio 2017可能是您轻松设置所有内容的选择。
+
+以下是应在Visual Studio 2017 Build Tools或Visual Studio 2017中安装的组件列表：
+
+* Visual Studio C ++核心功能
+* VC ++ 2017 v141工具集（x86，x64）
+* Windows Universal CRT SDK
+* Windows 8.1 SDK
+* C ++ / CLI支持
+
+.. _Git for Windows: https://git-scm.com/download/win
+.. _CMake: https://cmake.org/download/
+.. _Visual Studio 2017: https://www.visualstudio.com/vs/
+.. _Visual Studio 2017 Build Tools: https://www.visualstudio.com/downloads/#build-tools-for-visual-studio-2017
+
+
+外部依赖
+--------
+
+我们现在有一个“一键”脚本，可以在macOS，Windows和许多Linux发行版上安装所有必需的外部依赖项。
+这曾经是一个多步骤的手动过程，但现在是一行：
+
+.. code:: bash
+
+    ./scripts/install_deps.sh
+
+或者, 在Windows上:
+
+.. code:: bat
+
+    scripts\install_deps.bat
+
+
+命令行构建
+----------
+
+**确保在构建之前安装外部依赖项（参见上文）。**
+
+Solidity工程使用CMake配置构建工具。
+构建Solidity与在Linux，macOS和其他Unices平台上非常相似：
+
+.. code:: bash
+
+    mkdir build
+    cd build
+    cmake .. && make
+
+甚至更容易：
+
+.. code:: bash
+    
+    #note：这将在usr/local/bin安装二进制solc和soltest文件
+    ./scripts/build.sh
+
+甚至对于Windows：
+
+.. code:: bash
+
+    mkdir build
+    cd build
+    cmake -G "Visual Studio 15 2017 Win64" ..
+
+后一组指令将导致在该构建目录中创建 **solidity.sln** 文件。
+双击该文件应导致Visual Studio启动。我们建议构建 **RelWithDebugInfo** 配置，但所有其他（部分也）工作。
+
+或者，您可以在命令行上为Windows构建，如下所示：
+
+.. code:: bash
+
+    cmake --build . --config RelWithDebInfo
+
+CMake选项
+=========
+
+如果您对CMake选项感兴趣，请运行 ``cmake .. -LH`` 。
+
+版本字符串详情
+==============
+
+Solidity版本字符串包含四个部分：
+
+- 版本号
+- 预发布标记，通常设置为 ``develop.YYYY.MM.DD`` 或 ``nightly.YYYY.MM.DD``
+- 以 ``commit.GITHASH`` 的格式提交
+- platform有任意数量的项目，包含有关平台和编译器的详细信息
+
+如果有本地修改，则提交将以 ``.mod`` 为后缀。
+
+这些部分根据Semver的要求进行组合，其中Solidity预发布标记等于Semver预发布，
+Solidity提交和平台组合构成Semver构建元数据。
+
+release版本示例：``0.4.8 + commit.60cc1668.Emscripten.clang``。
+
+预发布版本示例：``0.4.9-nightly.2017.1.17 + commit.6ecb4aa3.Emscripten.clang``
+
+有关版本控制的重要信息
+======================
+
+发布后，补丁版本级别会受到影响（升级），因为我们假设只有补丁级别的更改。
+更改被合并时，应根据semver和更改的严重程度来调整版本号。
+最后，总是使用当前夜间构建版本进行发布，但不用 ``prerelease`` 说明符。
+
+例如：
+
+0. 0.4.0版本发布
+1. 从现在开始，nightly build的版本为0.4.1
+2. 引入了非破坏性改变 - 版本不变
+3. 引入了一个重大变化 - 版本被提升到0.5.0
+4. 发布0.5.0版本
+
+0. the 0.4.0 release is made
+1. nightly build has a version of 0.4.1 from now on
+2. non-breaking changes are introduced - no change in version
+3. a breaking change is introduced - version is bumped to 0.5.0
+4. the 0.5.0 release is made
+
+这种行为适用于 :ref:`version pragma <version_pragma>`。
